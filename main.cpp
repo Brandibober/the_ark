@@ -31,6 +31,8 @@ int main() {
         ark.flight();
         ark.deleteArk();
     }
+    else
+        cout << " Sorry, no flight....";
 
     return 0;
 }
