@@ -2,6 +2,7 @@
 project(the_ark)
 
 set(CMAKE_CXX_STANDARD 17)
+find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_executable(the_ark
         main.cpp
@@ -26,4 +27,6 @@ add_executable(the_ark
         Resources.h
         Human.cpp
         Human.h
-        Enums.cpp)
+        Enums.cpp
+        menu.h)
+target_link_libraries(the_ark sfml-graphics sfml-audio)
