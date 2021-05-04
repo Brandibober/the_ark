@@ -8,6 +8,7 @@
 #include <ctime>
 #include <cmath>
 #include "Service.h"
+#include "Enums.cpp"
 #include "TheArk.h"
 #include "MedicalService.h"
 #include "NavigationService.h"
@@ -32,6 +33,7 @@ private:
 public:
     EmergencyService();
 
+    unsigned int getNStaff();
     double accident_propability();
     double damage_factor();
     void determine_severity(Service* s);
@@ -41,12 +43,11 @@ public:
     double getState() override;                             // каждая служба должна уметь вернуть свое состояние в процентах, посчитав его в своих терминах
     void setState(double s) override;                       // функция для инициализации, каждая служба должна уметь получить состояние в процентах и пересчитать  его в своих терминах
     
-    unsigned int getNStaff();
     unsigned int getStaffDemand();
     unsigned int getResourceDemand();
     bool changeResources(int delta);
     bool changeStaff(int delta);
-    
+
 };
 
 

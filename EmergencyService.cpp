@@ -3,6 +3,8 @@
 
 #include "EmergencyService.h"
 
+#include <iostream>
+
 EmergencyService::EmergencyService()
 {
     this->State = 100;
@@ -63,19 +65,26 @@ void EmergencyService::determine_severity(Service* s)
 }
 
 
+
 void EmergencyService:: process_year()
 {
     // обновление состояния корабля в зависимости от кол-ва людей, ресурсов и аварий
 
     this->changeResources(this->getResourceDemand() - 10);
-    this->changeStaff(5);
-    this->setState(100 * ((this->Staff + this->Resources) / 205));
+    this->changeStaff(3);
+    this->setState(100 * (double)((this->Staff + this->Resources) / 205));
 
     //генерация чс
     for (auto s : TheArk::get_instance()->getServices())
     {
         this->create_accident(s);
     }
+
+    std::cout << "cur resouce: " << this->Resources << " ";
+    std::cout << "cur staff: " << this->Staff << " ";
+    std::cout << "cur state: " << this->State << " ";
+    std::cout << std::endl;
+
 }
 
 //для обработки переданных аварий; меняет состояние корабля в зависимости от тяжести аварии
@@ -124,7 +133,8 @@ unsigned int EmergencyService::getResourceDemand()
 
 //-------------------------------------
 
-unsigned int EmergencyService::getNStaff()
+
+unsigned int EmergencyService:: getNStaff()
 {
     return TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service].size();
 }
@@ -132,23 +142,27 @@ unsigned int EmergencyService::getNStaff()
 //добавление недостающего персонала реализовано в getNStaff; здесь только убиваем в случае аварий + ежегодая убыль
 bool EmergencyService::changeStaff(int delta)
 {
-    this->Staff -= delta;
     list<shared_ptr<Human>>& people = TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service];
-    
-    int counter = 0;
 
-    for (auto it = people.begin(); it != people.end(); it++)
-    {  
-        if (counter < delta)
+    if (this->Staff > delta)
+    {
+        int counter = 0;
+
+        for (auto it = people.begin(); it != people.end(); it++)
         {
-            (*it)->setIsAlive(false);
+            while (counter < delta)
+            {
+                (*it)->setIsAlive(false);
+                counter++;
+            }
+
         }
-        else
-        {
-            (*it)->setIsAlive(true);
-        }
-        counter++;
+
+        this->Staff -= delta;
     }
+
+    else
+        this->Staff = 0;
 
     return true;
 }
@@ -156,6 +170,7 @@ bool EmergencyService::changeStaff(int delta)
 unsigned int EmergencyService::getStaffDemand()
 {
     return this->max_Staff - this->Staff;
+
 }
 
 //----------------------------------------
