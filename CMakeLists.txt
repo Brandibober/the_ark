@@ -1,7 +1,12 @@
-# cmake_minimum_required(VERSION <specify CMake version here>)
+cmake_minimum_required(VERSION 3.17)
 project(the_ark)
 
 set(CMAKE_CXX_STANDARD 17)
+
+if (WIN32)
+    set(SFML_DIR ../SFML-2.5.1/lib/cmake/SFML)
+endif()
+
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_executable(the_ark
