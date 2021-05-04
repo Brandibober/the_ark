@@ -52,15 +52,15 @@ public:
 
     //-----------------------------changing and getting flight condition:
     void set_flight();                                              //makes the flight available
-    bool get_flight();                                              //gets flight condition
+    bool get_flight() const;                                              //gets flight condition
     //------------------------------------------------------------------
 
 
     //------------------------------------------------processing bottons:
-    void start_pressed(RenderWindow& window);                       //start booton
-    void welcome_page(string menu_, string exit_, string start_);   //menu
-    void exit_pressed(RenderWindow& window);                        //exit botton
-    void processing_menu(RenderWindow& window);                     //processing the previos
+    void start_pressed(RenderWindow& window);                       //start botton
+    void welcome_page(const string& menu_, const string& exit_, const string& start_);   //menu
+    static void exit_pressed(RenderWindow& window);                        //exit botton
+    void processing_menu(RenderWindow& window);                     //processing the previous
     //------------------------------------------------------------------
 };
 

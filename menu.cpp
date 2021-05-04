@@ -30,7 +30,7 @@ void Menu::create_exit(const string& exit_)
 void Menu::set_flight()
 { IS_FLIGHT_AVAILABLE = YES; }
 
-bool Menu::get_flight()
+bool Menu::get_flight() const
 { return IS_FLIGHT_AVAILABLE; }
 
 void Menu::start_pressed(RenderWindow& window)
@@ -39,7 +39,7 @@ void Menu::start_pressed(RenderWindow& window)
     window.close();
 }
 
-void Menu::welcome_page(string menu_, string exit_, string start_)
+void Menu::welcome_page(const string& menu_, const string& exit_, const string& start_)
 {
     RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "THE ARK");
     create_menu(menu_);
