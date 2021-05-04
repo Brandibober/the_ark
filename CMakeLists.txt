@@ -28,5 +28,6 @@ add_executable(the_ark
         Human.cpp
         Human.h
         Enums.cpp
-        menu.h)
+        menu.h
+        menu.cpp)
 target_link_libraries(the_ark sfml-graphics sfml-audio)
