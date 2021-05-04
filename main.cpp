@@ -2,25 +2,37 @@
 #include <iomanip>
 #include <fstream>
 #include "TheArk.h"
+#include "menu.h"
 
 using std::cin;
 using std::cout;
 using std::endl;
-
 using std::setw;
 
 void print_table_header(std::ostream & fout);
 
 int main() {
-    TheArk & ark = *TheArk::get_instance();
 
-    std::ofstream fout("../TheArk.csv");
-    ark.init(&cin, &fout);
+    Menu the_ark;
+    RenderWindow window;
+    the_ark.welcome_page("../images/menu.jpg",
+                         "../images/exit.png",
+                         "../images/start.png" );
 
-    print_table_header(fout);
+    if (the_ark.get_flight())
+    {
+        TheArk & ark = *TheArk::get_instance();
 
-    ark.flight();
-    ark.deleteArk();
+        std::ofstream fout("../TheArk.csv");
+        ark.init(&cin, &fout);
+
+        print_table_header(fout);
+
+        ark.flight();
+        ark.deleteArk();
+    }
+    else
+        cout << " Sorry, no flight....";
 
     return 0;
 }
