@@ -8,22 +8,22 @@
 EmergencyService::EmergencyService()
 {
     this->State = 100;
-    this->Staff = 100; //персонала в данный момент
-    this->max_Staff = 100;//максимальное количество персонала в службе
+    this->Staff = 100; //ГЇГҐГ°Г±Г®Г­Г Г«Г  Гў Г¤Г Г­Г­Г»Г© Г¬Г®Г¬ГҐГ­ГІ
+    this->max_Staff = 100;//Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­Г®ГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЇГҐГ°Г±Г®Г­Г Г«Г  Гў Г±Г«ГіГ¦ГЎГҐ
     this->Resources = 100;
     this->max_Resources = 100;
 
 }
 
 
-//от 0 до 1, чем хуже состояние службы - тем выше вероятность аварии
+//Г®ГІ 0 Г¤Г® 1, Г·ГҐГ¬ ГµГіГ¦ГҐ Г±Г®Г±ГІГ®ГїГ­ГЁГҐ Г±Г«ГіГ¦ГЎГ» - ГІГҐГ¬ ГўГ»ГёГҐ ГўГҐГ°Г®ГїГІГ­Г®Г±ГІГј Г ГўГ Г°ГЁГЁ
 double EmergencyService::accident_propability()
 {
     double s = TheArk::get_instance()->getMedicalService()->getState() / 100;
     return 1 / pow(3, 3 * s);
 }
 
-//от 1 до 100 чем хуже состояние чс, тем больше коэффициент - больше ущерб от аварии
+//Г®ГІ 1 Г¤Г® 100 Г·ГҐГ¬ ГµГіГ¦ГҐ Г±Г®Г±ГІГ®ГїГ­ГЁГҐ Г·Г±, ГІГҐГ¬ ГЎГ®Г«ГјГёГҐ ГЄГ®ГЅГґГґГЁГ¶ГЁГҐГ­ГІ - ГЎГ®Г«ГјГёГҐ ГіГ№ГҐГ°ГЎ Г®ГІ Г ГўГ Г°ГЁГЁ
 double EmergencyService::damage_factor()
 {
     if (this->getState() != 0)
@@ -31,7 +31,7 @@ double EmergencyService::damage_factor()
     else return 100;
 }
 
-//генерация аварий
+//ГЈГҐГ­ГҐГ°Г Г¶ГЁГї Г ГўГ Г°ГЁГ©
 void EmergencyService::create_accident(Service* s)
 {
     srand(time(0));
@@ -68,26 +68,21 @@ void EmergencyService::determine_severity(Service* s)
 
 void EmergencyService:: process_year()
 {
-    // обновление состояния корабля в зависимости от кол-ва людей, ресурсов и аварий
+    // Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г±Г®Г±ГІГ®ГїГ­ГЁГї ГЄГ®Г°Г ГЎГ«Гї Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ ГЄГ®Г«-ГўГ  Г«ГѕГ¤ГҐГ©, Г°ГҐГ±ГіГ°Г±Г®Гў ГЁ Г ГўГ Г°ГЁГ©
 
     this->changeResources(this->getResourceDemand() - 10);
     this->changeStaff(3);
     this->setState(100 * (double)((this->Staff + this->Resources) / 205));
 
-    //генерация чс
+    //ГЈГҐГ­ГҐГ°Г Г¶ГЁГї Г·Г±
     for (auto s : TheArk::get_instance()->getServices())
     {
         this->create_accident(s);
     }
 
-    std::cout << "cur resouce: " << this->Resources << " ";
-    std::cout << "cur staff: " << this->Staff << " ";
-    std::cout << "cur state: " << this->State << " ";
-    std::cout << std::endl;
-
 }
 
-//для обработки переданных аварий; меняет состояние корабля в зависимости от тяжести аварии
+//Г¤Г«Гї Г®ГЎГ°Г ГЎГ®ГІГЄГЁ ГЇГҐГ°ГҐГ¤Г Г­Г­Г»Гµ Г ГўГ Г°ГЁГ©; Г¬ГҐГ­ГїГҐГІ Г±Г®Г±ГІГ®ГїГ­ГЁГҐ ГЄГ®Г°Г ГЎГ«Гї Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ ГІГїГ¦ГҐГ±ГІГЁ Г ГўГ Г°ГЁГЁ
 void EmergencyService::process_accident(AccidentSeverity as)
 {
     this->changeResources(-(12 * as + 10));
@@ -105,15 +100,15 @@ void EmergencyService::setState(double s)
     this->State = s;
 }
 
-// управление ресурсами
+// ГіГЇГ°Г ГўГ«ГҐГ­ГЁГҐ Г°ГҐГ±ГіГ°Г±Г Г¬ГЁ
 //----------------------------
 bool EmergencyService::changeResources(int delta)
 {
-    if (delta < 0)//отняли ресурсы; из-за аварии 
+    if (delta < 0)//Г®ГІГ­ГїГ«ГЁ Г°ГҐГ±ГіГ°Г±Г»; ГЁГ§-Г§Г  Г ГўГ Г°ГЁГЁ 
     {
-        TheArk::get_instance()->getResources()->setUsedToJunk(- delta, 5); //вернули мусор
+        TheArk::get_instance()->getResources()->setUsedToJunk(- delta, 5); //ГўГҐГ°Г­ГіГ«ГЁ Г¬ГіГ±Г®Г°
     }
-    else //добавляем ресурсы в количестве недостающих - 10 - ежегодный износ
+    else //Г¤Г®ГЎГ ГўГ«ГїГҐГ¬ Г°ГҐГ±ГіГ°Г±Г» Гў ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГҐ Г­ГҐГ¤Г®Г±ГІГ ГѕГ№ГЁГµ - 10 - ГҐГ¦ГҐГЈГ®Г¤Г­Г»Г© ГЁГ§Г­Г®Г±
     {
         TheArk::get_instance()->getResources()->setComponentsToUsed(delta, 5);
     }
@@ -129,7 +124,7 @@ unsigned int EmergencyService::getResourceDemand()
 
 //-------------------------------------
 
-//управление перосналом
+//ГіГЇГ°Г ГўГ«ГҐГ­ГЁГҐ ГЇГҐГ°Г®Г±Г­Г Г«Г®Г¬
 
 //-------------------------------------
 
@@ -139,7 +134,7 @@ unsigned int EmergencyService:: getNStaff()
     return TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service].size();
 }
 
-//добавление недостающего персонала реализовано в getNStaff; здесь только убиваем в случае аварий + ежегодая убыль
+//Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г­ГҐГ¤Г®Г±ГІГ ГѕГ№ГҐГЈГ® ГЇГҐГ°Г±Г®Г­Г Г«Г  Г°ГҐГ Г«ГЁГ§Г®ГўГ Г­Г® Гў getNStaff; Г§Г¤ГҐГ±Гј ГІГ®Г«ГјГЄГ® ГіГЎГЁГўГ ГҐГ¬ Гў Г±Г«ГіГ·Г ГҐ Г ГўГ Г°ГЁГ© + ГҐГ¦ГҐГЈГ®Г¤Г Гї ГіГЎГ»Г«Гј
 bool EmergencyService::changeStaff(int delta)
 {
     list<shared_ptr<Human>>& people = TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service];
