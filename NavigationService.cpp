@@ -46,8 +46,8 @@ void NavigationService::process_accident(AccidentSeverity as){int k=0;
 
     }
     this->lost_years += k*(double(TheArk::get_instance()->getYearsTotal()-TheArk::get_instance()->getCurrentYear())/125);
-    this->changeResources(-k*TheArk::get_instance()->getResources()->getComponents()/100);
-    this->changeStaff(-k*2);
+    this->changeResources(-k * TheArk::get_instance()->getResources()->getComponents()/100);
+    this->changeStaff(k*2);
 
 }
 void NavigationService::process_year(){
@@ -60,7 +60,7 @@ void NavigationService::process_year(){
 
 
     }
-*/
+    */
     if (stage !=0 && (stage<5))
     {this->changeResources(0);
     }
@@ -78,6 +78,9 @@ void NavigationService::process_year(){
     {
         this->changeResources(0);
     }
+    this->lost_years-=2;
+    if (this->lost_years < 0)
+        this->lost_years==0;
    // if (this->staff==0) this->State=0;
     //else
    // this->State=(100- this->State=(100- (this->lost_years)/TheArk::get_instance()->getYearsTotal()*100);-(this->staff/this->need_staff));
@@ -94,23 +97,54 @@ double NavigationService::getState() {
 }
 
 void NavigationService::setState(double s) {
-    this->staff=round((s-1)/100*need_staff);
+    this->staff=round((s - 1) / 100 * need_staff);
    
-    this->State = (s-1);
+    this->State = (s);
 
 
 }
 
 bool NavigationService:: changeResources(int delta)
-{
+{if (delta < 0)
+    {
+        TheArk::get_instance()->getResources()->setUsedToJunk( delta, 4);
+    }
+
     this->resources += delta;
     return true;
+
 }
 
 
 bool NavigationService::changeStaff(int delta)
-{ this->staff += delta;
-    return true;
+{
+
+        list<shared_ptr<Human>>& people = TheArk::get_instance()->getPopulation()->getAllClassification()[Navigation_Service];
+
+        if (this->staff > delta && delta > 0)
+        {
+            int counter = 0;
+
+            for (auto it = people.begin(); it != people.end(); it++)
+            {
+                while (counter < delta)
+                {
+                    (*it)->setIsAlive(false);
+                    counter++;
+                }
+
+            }
+
+            this->staff -= delta;
+        }
+
+        else
+            if (delta <= 0)
+            this->staff +=delta;
+
+        return true;
+
+
 }
 
 unsigned int NavigationService::getStaffDemand()
@@ -124,4 +158,5 @@ unsigned int NavigationService::getStaffDemand()
     return 0;
 
 }
+
 
