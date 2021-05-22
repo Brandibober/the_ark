@@ -4,6 +4,7 @@
 
 #include "BiologicalService.h"
 #include "TheArk.h"
+#include "Resources.h"
 #include <iostream>
 #include <cmath>
 #include <vector>
