@@ -38,10 +38,10 @@ int GetTypeId (int x)
     return c;
 }
 
-BioRes::BioRes(unsigned int start_mass,/*double effencecy_mass,double effencecy_energy,*/double KPD_e,int worker_optimum,int max_profit,double health_of_system)
+BioRes::BioRes(unsigned int start_mass,double KPD_e,int worker_optimum,int max_profit,double health_of_system, int consume_for1)
 {
     mass=start_mass; //set start mass of resource
-    k=consume_for1; //consume of 1 human per year
+    int k=consume_for1; //consume of 1 human per year
     junk=0; //CO2 for air, poor water for water, composte for eat
     KPD=KPD_e;
     worker_0=worker_optimum;
@@ -53,12 +53,12 @@ KPD_energy=effencecy_energy; //Energy*KPD=profit */
 int BioRes::profit(int worker)
 {
 if (KPD*hp*worker/worker_0<junk)
-    {return KPD*hp*worker/worker_0}
+    {return KPD*hp*worker/worker_0;}
 else
-    {return junk}
+    {return junk;}
 }
 
-void BioRes::RecycleRes(int worker,int people) //how mass change
+void BioRes::RecycleRes(int worker,int Energy,int people) //how mass change
 {
     if (0<mass+profit(worker)-people*k)
 {
@@ -79,12 +79,13 @@ return int(KPD*hp*worker/worker_0/k);
 }
 int BioRes::GetResource()
     {return mass;}
-int BioRes::GetJunk()
+double BioRes::GetJunk()
     {return junk;}
 double BioRes::Gethp()
     {return hp;}
 void BioRes::Sethp(double health_of_system)
     {hp=health_of_system;}
+
 class Animal {
 public:
     char name;
