@@ -19,6 +19,28 @@ public:
     void setState(double s) override;                       // функция для инициализации, каждая служба должна уметь получить состояние в процентах и пересчитать  его в своих терминах
 };
 
+class BioRes
+{
+private:
+int k,mass,junk,worker_0;
+double hp,KPD;
+public:
+BioRes(unsigned int start_mass,int consume_for1);
+RecycleRes(int worker,int Energy,int people);
+profit(int worker);
+BioRes::GetResource();
+
+BioRes::GetJunk();
+
+BioRes::Gethp();
+
+BioRes::Sethp(double health_of_system);
+
+BioRes::GetPeople(int worker):
+
+
+}
+
 struct coord;
 
 int GetTypeId (int x);
