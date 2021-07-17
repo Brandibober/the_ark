@@ -8,22 +8,22 @@
 EmergencyService::EmergencyService()
 {
     this->State = 100;
-    this->Staff = 100; //ïåðñîíàëà â äàííûé ìîìåíò
-    this->max_Staff = 100;//ìàêñèìàëüíîå êîëè÷åñòâî ïåðñîíàëà â ñëóæáå
+    this->Staff = 100; //персонала в данный момент
+    this->max_Staff = 100;//максимальное количество персонала в службе
     this->Resources = 100;
     this->max_Resources = 100;
 
 }
 
 
-//îò 0 äî 1, ÷åì õóæå ñîñòîÿíèå ñëóæáû - òåì âûøå âåðîÿòíîñòü àâàðèè
+//от 0 до 1, чем хуже состояние службы - тем выше вероятность аварии
 double EmergencyService::accident_propability()
 {
     double s = TheArk::get_instance()->getMedicalService()->getState() / 100;
     return 1 / pow(3, 3 * s);
 }
 
-//îò 1 äî 100 ÷åì õóæå ñîñòîÿíèå ÷ñ, òåì áîëüøå êîýôôèöèåíò - áîëüøå óùåðá îò àâàðèè
+//от 1 до 100 чем хуже состояние чс, тем больше коэффициент - больше ущерб от аварии
 double EmergencyService::damage_factor()
 {
     if (this->getState() != 0)
@@ -31,7 +31,7 @@ double EmergencyService::damage_factor()
     else return 100;
 }
 
-//ãåíåðàöèÿ àâàðèé
+//генерация аварий
 void EmergencyService::create_accident(Service* s)
 {
     srand(time(0));
@@ -68,13 +68,14 @@ void EmergencyService::determine_severity(Service* s)
 
 void EmergencyService:: process_year()
 {
-    // îáíîâëåíèå ñîñòîÿíèÿ êîðàáëÿ â çàâèñèìîñòè îò êîë-âà ëþäåé, ðåñóðñîâ è àâàðèé
+ // обновление состояния корабля в зависимости от кол-ва людей, ресурсов и аварий
 
     this->changeResources(this->getResourceDemand() - 10);
     this->changeStaff(3);
     this->setState(100 * (double)((this->Staff + this->Resources) / 205));
 
-    //ãåíåðàöèÿ ÷ñ
+//генерация чс
+
     for (auto s : TheArk::get_instance()->getServices())
     {
         this->create_accident(s);
@@ -82,7 +83,7 @@ void EmergencyService:: process_year()
 
 }
 
-//äëÿ îáðàáîòêè ïåðåäàííûõ àâàðèé; ìåíÿåò ñîñòîÿíèå êîðàáëÿ â çàâèñèìîñòè îò òÿæåñòè àâàðèè
+//для обработки переданных аварий; меняет состояние корабля в зависимости от тяжести аварии
 void EmergencyService::process_accident(AccidentSeverity as)
 {
     this->changeResources(-(12 * as + 10));
@@ -100,15 +101,15 @@ void EmergencyService::setState(double s)
     this->State = s;
 }
 
-// óïðàâëåíèå ðåñóðñàìè
+// управление ресурсами
 //----------------------------
 bool EmergencyService::changeResources(int delta)
 {
-    if (delta < 0)//îòíÿëè ðåñóðñû; èç-çà àâàðèè 
+    if (delta < 0)//отняли ресурсы; из-за аварии 
     {
-        TheArk::get_instance()->getResources()->setUsedToJunk(- delta, 5); //âåðíóëè ìóñîð
+        TheArk::get_instance()->getResources()->setUsedToJunk(- delta, 5); //вернули мусор
     }
-    else //äîáàâëÿåì ðåñóðñû â êîëè÷åñòâå íåäîñòàþùèõ - 10 - åæåãîäíûé èçíîñ
+    else //добавляем ресурсы в количестве недостающих - 10 - ежегодный износ
     {
         TheArk::get_instance()->getResources()->setComponentsToUsed(delta, 5);
     }
@@ -124,17 +125,17 @@ unsigned int EmergencyService::getResourceDemand()
 
 //-------------------------------------
 
-//óïðàâëåíèå ïåðîñíàëîì
+//управление перосналом
 
 //-------------------------------------
 
 
-unsigned int EmergencyService:: getNStaff()
+unsigned int EmergencyService:: getNStaff() 
 {
     return TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service].size();
 }
 
-//äîáàâëåíèå íåäîñòàþùåãî ïåðñîíàëà ðåàëèçîâàíî â getNStaff; çäåñü òîëüêî óáèâàåì â ñëó÷àå àâàðèé + åæåãîäàÿ óáûëü
+//добавление недостающего персонала реализовано в getNStaff; здесь только убиваем в случае аварий + ежегодая убыль
 bool EmergencyService::changeStaff(int delta)
 {
     list<shared_ptr<Human>>& people = TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service];
