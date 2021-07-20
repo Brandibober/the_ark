@@ -11,10 +11,10 @@ TechnicalService::TechnicalService()
     this->engineState = 100;
     this->protectionState = 100;
     this->serviceState = 100;
-    this->maxStaff = 200;
-    this->maxResources = 200;
-    this->staff = 170;
-    this->resources = 170;
+    this->maxStaff = 0;
+    this->maxResources = 0;
+    this->staff = 200;
+    this->resources = 200;
 }
 
 // идет "корректировка" состояния корабля в зависимости от степени аварии

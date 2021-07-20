@@ -19,6 +19,7 @@ private:
     unsigned int children;
     unsigned int adults;
     unsigned int oldmen;
+    unsigned int unemployed_people;
 
     unsigned int borderChildrenToAdults();
     unsigned int borderAdultsToOldmen();
@@ -43,6 +44,8 @@ public:
     unsigned int getAdults() const;
     unsigned int getOldmen() const;
     unsigned int getTotal() const;
+    unsigned int getUnemployedPeople() const;
+    list<shared_ptr<Human>>& getServiceStaff(Classification_of_humans service);
 
     list<shared_ptr<Human>>& getPeople();
     array<list<shared_ptr<Human>>, 7>& getAllClassification();
