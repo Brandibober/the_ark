@@ -133,10 +133,9 @@ SocialService* TheArk::getSocialService()
 void TheArk::processYear() {
     population->processYear();
     resources->processYear();
-    for (auto s: services) {
-        if (!dynamic_cast<MedicalService*>(s)) {
-            s->process_year();
-        }
+    for (auto s: services)
+    {
+         s->process_year();
     }
     // перераспределение ресурсов
     // перераспределение работников

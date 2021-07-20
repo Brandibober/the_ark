@@ -120,7 +120,7 @@ list<shared_ptr<Human>>& Population::getServiceStaff(Classification_of_humans se
 
 void Population::processYear() {
     //рождаемость
-    for(int i = 0; i < TheArk::get_instance()->getMedicalService()->BirthRate(); i++)
+    for(int i = 0; i < this->adults * 0.01; i++)
     {
         auto* micro_chelik = new Human();
         micro_chelik->setAge(0);
@@ -180,21 +180,21 @@ void Population::processYear() {
                 adults--;
             }
         }
-        if (HisAge >= this->borderAdultsToOldmen() && HisAge <= 100)
+        if (HisAge >= this->borderAdultsToOldmen())
         {
             oldmen++;
-            if (rand() <= this->deathRateOldmen() * RAND_MAX)
+            if (rand() <= this->deathRateOldmen() * RAND_MAX || HisAge > 100)
             {
                 (*it)->setIsAlive(false);
                 oldmen--;
             }
         }
-        if((*it)->getPhysicalHealth() <= 10 || (*it)->getMoralHealth() <= 5){
+        /* if((*it)->getPhysicalHealth() <= 10 || (*it)->getMoralHealth() <= 5){
             (*it)->setIsAlive(false);
         }
         if(HisAge > 100){
             (*it)->setIsAlive(false);
-        }
+        }*/
 
         //старение
         (*it)->setAge(HisAge + 1);
