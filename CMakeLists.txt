@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 project(the_ark)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -15,24 +15,14 @@ add_executable(the_ark
         TheArk.cpp
         Service.cpp
         TechnicalService.cpp
-        TechnicalService.h
         BiologicalService.cpp
-        BiologicalService.h
         MedicalService.cpp
-        MedicalService.h
         NavigationService.cpp
-        NavigationService.h
         EmergencyService.cpp
-        EmergencyService.h
         SocialService.cpp
-        SocialService.h
         Population.cpp
-        Population.h
         Resources.cpp
-        Resources.h
         Human.cpp
-        Human.h
         Enums.cpp
-        menu.h
         menu.cpp)
 target_link_libraries(the_ark sfml-graphics sfml-audio)

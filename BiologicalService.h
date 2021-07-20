@@ -14,33 +14,40 @@ public:
     BiologicalService();
 
     void process_accident(AccidentSeverity as) override;    // каждая служба должна уметь в своих терминах обработать переданную ей аварию
-    void process_year() override {};                       // если у службы есть какая-то личная жизнь, она может заниматься ей тут
-    double getState() override;                             // каждая служба должна уметь вернуть свое состояние в процентах, посчитав его в своих терминах
+    void
+    process_year() override {};                       // если у службы есть какая-то личная жизнь, она может заниматься ей тут
+    double
+    getState() override;                             // каждая служба должна уметь вернуть свое состояние в процентах, посчитав его в своих терминах
     void setState(double s) override;                       // функция для инициализации, каждая служба должна уметь получить состояние в процентах и пересчитать  его в своих терминах
+    unsigned int getResourceDemand() override {return 0;};
+    unsigned int getStaffDemand() override {return 0;};
 };
-class BioRes
-{
+
+class BioRes {
 private:
-int k,mass,junk,worker_0;
-double hp,KPD;
+    int k, mass, junk, worker_0;
+    double hp, KPD;
 public:
-BioRes(unsigned int start_mass,double KPD_e,int worker_optimum,int max_profit,double health_of_system, int consume_for1);
-void RecycleRes(int worker,int Energy,int people);
-int profit(int worker);
-int GetResource();
+    BioRes(unsigned int start_mass, double KPD_e, int worker_optimum, int max_profit, double health_of_system,
+           int consume_for1);
 
-double GetJunk();
+    void RecycleRes(int worker, int Energy, int people);
 
-double Gethp();
+    int profit(int worker);
 
-void Sethp(double health_of_system);
+    int GetResource();
 
-int GetPeople(int worker);
+    double GetJunk();
 
+    double Gethp();
 
+    void Sethp(double health_of_system);
+
+    int GetPeople(int worker);
 };
+
 struct coord;
 
-int GetTypeId (int x);
+int GetTypeId(int x);
 
 #endif //THE_ARK_BIOLOGICALSERVICE_H

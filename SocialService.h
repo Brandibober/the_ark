@@ -46,11 +46,11 @@ public:
     void setState(double s) override;                       // функция для инициализации, каждая служба должна уметь получить состояние в процентах и пересчитать  его в своих терминах
 
     unsigned int getResourceDemand() override;           // сколько ресурсов требуется
-    unsigned int getResourcePriority() override;         // с каким приоритетом служба будет требовать ресурсы
+    unsigned int getResourcePriority();         // с каким приоритетом служба будет требовать ресурсы
     unsigned int getStaffDemand() override;              // сколько людей требуется
-    unsigned int getStaffPriority() override;            // с каким приоритетом слуюба будет требовать людей
-    bool changeStaff (int delta) override;               // сколько людей добавили или забрали (в т.ч. смертность)
-    bool changeResources(int delta) override;            // сколько ресурсов добавили или забрали (в т.ч. износ)
+    unsigned int getStaffPriority();            // с каким приоритетом слуюба будет требовать людей
+    bool changeStaff (int delta) ;               // сколько людей добавили или забрали (в т.ч. смертность)
+    bool changeResources(int delta);            // сколько ресурсов добавили или забрали (в т.ч. износ)
 
     unsigned int borderChildrenToAdults();
 };
