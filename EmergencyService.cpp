@@ -12,7 +12,6 @@ EmergencyService::EmergencyService()
     this->max_Staff = 100;//максимальное количество персонала в службе
     this->Resources = 100;
     this->max_Resources = 100;
-
 }
 
 
@@ -135,7 +134,7 @@ unsigned int EmergencyService:: getNStaff()
     return TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service].size();
 }
 
-//добавление недостающего персонала реализовано в getNStaff; здесь только убиваем в случае аварий + ежегодая убыль
+//добавление недостающего персонала реализовано в getRecommendedNStaff; здесь только убиваем в случае аварий + ежегодая убыль
 bool EmergencyService::changeStaff(int delta)
 {
     list<shared_ptr<Human>>& people = TheArk::get_instance()->getPopulation()->getAllClassification()[Emergency_Service];

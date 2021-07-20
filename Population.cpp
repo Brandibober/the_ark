@@ -50,17 +50,17 @@ unsigned int Population::number_staff(Classification_of_humans serves)
 {
     switch(serves){
         case Technical_Service:
-            return TheArk::get_instance()->getTechnicalService()->getNStaff();
+            return TheArk::get_instance()->getTechnicalService()->getRecommendedNStaff();
         case Biological_Service:
-            return TheArk::get_instance()->getBiologicalService()->getNStaff();
+            return TheArk::get_instance()->getBiologicalService()->getRecommendedNStaff();
         case Medical_Service:
-            return TheArk::get_instance()->getMedicalService()->getNStaff();
+            return TheArk::get_instance()->getMedicalService()->getRecommendedNStaff();
         case Navigation_Service:
-            return TheArk::get_instance()->getNavigationService()->getNStaff();
+            return TheArk::get_instance()->getNavigationService()->getRecommendedNStaff();
         case Emergency_Service:
             return TheArk::get_instance()->getEmergencyService()->getNStaff();
         case Social_Service:
-            return TheArk::get_instance()->getSocialService()->getNStaff();
+            return TheArk::get_instance()->getSocialService()->getRecommendedNStaff();
         default:
             return 0;
     }

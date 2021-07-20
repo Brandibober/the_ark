@@ -25,7 +25,6 @@ class TheArk {
 private:
     unsigned int years_total;
     unsigned int current_year;
-
     std::array<Service*, 6> services;
     Population* population;
     Resources* resources;
